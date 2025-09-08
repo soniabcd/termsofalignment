@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" xintegrity="sha512-01CJ9/g7e8cUmY0DRJZ5BOTjdqatókaNuaIxeotfdopgzji_jbVnpLP5aaaBCgBNjXfXqHqNUIAiZflbnEUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" xintegrity="sha512-qZvrmS2ekKPF2mSZNAsGn6anacnkeCl5SYtcB7vMGvcGev0omd5cdB+l7LXQb7A9P5+gppIu2Nb95Kz1524kNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -33,9 +32,8 @@
         .export-mode .no-print {
             display: none !important;
         }
-        .export-mode section, .export-mode footer {
-            box-shadow: none !important;
-            border: 1px solid #e5e7eb;
+        .export-mode section {
+             page-break-inside: avoid !important;
         }
         .timeline-item {
             position: relative;
@@ -72,7 +70,7 @@
         <div id="page-content" class="p-4 sm:p-6 md:p-8 bg-white">
 
             <header class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-[#3A4A6D] mb-2">Terms of Alignment Worksheet</h1>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#3A4A6D] mb-2">CTerms of Alignment Worksheet</h1>
                 <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">An interactive guide to defining your professional terms for sustainable success and well-being.</p>
             </header>
 
@@ -98,7 +96,7 @@
                         <div class="bg-yellow-100/50 border border-yellow-300 p-6 rounded-lg">
                             <h3 class="font-bold text-xl mb-2 text-[#F9A826]">Your Purpose</h3>
                             <textarea id="purpose-textarea" class="w-full h-36 p-3 bg-white/50 rounded-md border border-yellow-300 focus:ring-2 focus:ring-[#F9A826] focus:outline-none transition no-print" placeholder="I accepted this position to step out of my comfort zone..."></textarea>
-                            <div id="purpose-display" class="text-gray-700 italic pt-3 min-h-[144px] whitespace-pre-wrap"></div>
+                            <div id="purpose-display" class="text-gray-700 italic pt-3 whitespace-pre-wrap"></div>
                         </div>
                     </div>
                 </section>
@@ -271,18 +269,24 @@
 
         function prepareForExport() {
             body.classList.add('export-mode');
-            const textareas = document.querySelectorAll('textarea');
-            textareas.forEach(ta => {
-                const displayId = ta.id + '-display';
-                const displayDiv = document.getElementById(displayId);
-                if(displayDiv) {
-                    displayDiv.innerText = ta.value;
-                } else if (ta.nextElementSibling && ta.nextElementSibling.classList.contains('reflection-display')){
+            
+            // Explicitly handle each textarea to avoid errors
+            const purposeTextarea = document.getElementById('purpose-textarea');
+            if (purposeTextarea) {
+                 document.getElementById('purpose-display').innerText = purposeTextarea.value;
+            }
+
+            const reflectionTextareas = document.querySelectorAll('textarea:not(#purpose-textarea):not(#signature-block)');
+             reflectionTextareas.forEach(ta => {
+                if (ta.nextElementSibling && ta.nextElementSibling.classList.contains('reflection-display')){
                      ta.nextElementSibling.innerText = ta.value;
                 }
             });
-            const signatureDisplay = document.getElementById('signature-display');
-            signatureDisplay.innerText = document.getElementById('signature-block').value;
+
+            const signatureTextarea = document.getElementById('signature-block');
+            if (signatureTextarea) {
+                document.getElementById('signature-display').innerText = signatureTextarea.value;
+            }
         }
 
         function cleanupAfterExport() {
@@ -347,7 +351,7 @@
                     const blob = dataUrlToBlob(dataUrl);
                     const url = URL.createObjectURL(blob);
                     window.open(url, '_blank');
-                    URL.revokeObjectURL(url);
+                    // No revoke, as the user needs time to save from the new tab.
                 })
                 .catch(function (error) {
                     console.error('PNG export failed!', error);
