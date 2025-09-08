@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigating Your Work-Life Alignment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" xintegrity="sha512-01CJ9/g7e8cUmY0DRJZ5BOTjdqatókaNuaIxeotfdopgzji_jbVnpLP5aaaBCgBNjXfXqHqNUIAiZflbnEUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" xintegrity="sha512-qZvrmS2ekKPF2mSZNAsGn6anacnkeCl5SYtcB7vMGvcGev0omd5cdB+l7LXQb7A9P5+gppIu2Nb95Kz1524kNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC; 
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .export-mode .no-print {
+            display: none !important;
+        }
+        .export-mode section, .export-mode footer {
+            box-shadow: none !important;
+            border: 1px solid #e5e7eb;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2.5rem;
+            padding-left: 3rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 2rem;
+            width: 2rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            z-index: 10;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0.9rem;
+            top: 2rem;
+            bottom: 0;
+            width: 0.25rem;
+            background-color: #E5E7EB;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <div class="container mx-auto">
+        <div id="page-content" class="p-4 sm:p-6 md:p-8 bg-white">
+
+            <header class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#3A4A6D] mb-2">Terms of Alignment Worksheet</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">An interactive guide to defining your professional terms for sustainable success and well-being.</p>
+            </header>
+
+            <main class="space-y-12">
+
+                <section id="purpose" class="p-6 md:p-8 rounded-lg border">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-[#FF6B6B] mb-4">I. The Purpose Statement</h2>
+                        <p class="text-lg text-gray-700 max-w-4xl mx-auto mb-6">
+                            Start by defining your 'why'. This is your anchor. Why did you choose this role? What is the core intention behind this professional chapter?
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                        <div class="bg-slate-100 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-[#3A4A6D]">Guiding Questions</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li>What growth opportunity excites me most?</li>
+                                <li>What am I consciously trading for this?</li>
+                                <li>How will this role help me become who I want to be?</li>
+                                <li>What lessons from the past will I apply now?</li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-100/50 border border-yellow-300 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-2 text-[#F9A826]">Your Purpose</h3>
+                            <textarea id="purpose-textarea" class="w-full h-36 p-3 bg-white/50 rounded-md border border-yellow-300 focus:ring-2 focus:ring-[#F9A826] focus:outline-none transition no-print" placeholder="I accepted this position to step out of my comfort zone..."></textarea>
+                            <div id="purpose-display" class="text-gray-700 italic pt-3 min-h-[144px] whitespace-pre-wrap"></div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="balance" class="p-6 md:p-8 rounded-lg border">
+                    <h2 class="text-3xl font-bold text-center text-[#3A4A6D] mb-8">II. Balancing the Scales: Trade-Offs vs. Returns</h2>
+                    <p class="text-lg text-center text-gray-700 max-w-4xl mx-auto mb-10">
+                        Every role involves a balance. Being honest about the sacrifices and clear on the expected benefits is crucial for long-term satisfaction.
+                    </p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
+                        <div class="bg-white p-6 md:p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-bold text-center text-[#FF6B6B] mb-4">Acknowledged Trade-Offs</h3>
+                            <p class="text-center text-gray-600 mb-6">List the known costs of your commitment. Assign an impact score from 1-10.</p>
+                            <div id="tradeoffs-list" class="space-y-2 mb-4"></div>
+                            <div class="flex gap-2 no-print">
+                                <input type="text" id="new-tradeoff-label" placeholder="New Trade-Off" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-[#FF6B6B] focus:outline-none">
+                                <input type="number" id="new-tradeoff-value" placeholder="Score" min="1" max="10" class="w-20 p-2 border rounded-md focus:ring-2 focus:ring-[#FF6B6B] focus:outline-none">
+                                <button id="add-tradeoff-btn" class="bg-[#FF6B6B] text-white font-bold py-2 px-4 rounded-md hover:bg-[#E55A5A] transition">Add</button>
+                            </div>
+                            <div class="chart-container h-80 md:h-96 mt-6">
+                                <canvas id="tradeOffsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 md:p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-bold text-center text-[#4ECDC4] mb-4">Expected Returns</h3>
+                            <p class="text-center text-gray-600 mb-6">List the tangible and intangible benefits you expect, with a value score from 1-10.</p>
+                            <div id="returns-list" class="space-y-2 mb-4"></div>
+                            <div class="flex gap-2 no-print">
+                                <input type="text" id="new-return-label" placeholder="New Return" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none">
+                                <input type="number" id="new-return-value" placeholder="Score" min="1" max="10" class="w-20 p-2 border rounded-md focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none">
+                                <button id="add-return-btn" class="bg-[#4ECDC4] text-white font-bold py-2 px-4 rounded-md hover:bg-[#3ABDB1] transition">Add</button>
+                            </div>
+                            <div class="chart-container h-80 md:h-96 mt-6">
+                                <canvas id="returnsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="commitment" class="p-6 md:p-8 rounded-lg border">
+                    <h2 class="text-3xl font-bold text-center text-[#3A4A6D] mb-8">III. Your Commitment & Your Boundaries</h2>
+                    <p class="text-lg text-center text-gray-700 max-w-4xl mx-auto mb-10">
+                    Success requires a strong commitment and firm boundaries. This is your pledge.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-bold text-[#4ECDC4] mb-4 text-center">My Professional Pledge</h3>
+                            <p class="text-center text-gray-600 mb-6">Define what you will bring to your work. This is your professional promise.</p>
+                            <div id="pledge-list" class="space-y-3 mb-4"></div>
+                            <div class="flex gap-2 mt-4 no-print">
+                                <input type="text" id="new-pledge-label" placeholder="e.g., Bring my full presence" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none">
+                                <button id="add-pledge-btn" class="bg-[#4ECDC4] text-white font-bold py-2 px-4 rounded-md hover:bg-[#3ABDB1] transition">Add</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-bold text-[#FF6B6B] mb-4 text-center">My Non-Negotiables</h3>
+                            <p class="text-center text-gray-600 mb-6">Define your boundaries. These are the pillars of your well-being that are not up for sacrifice.</p>
+                            <ul id="non-negotiables-list" class="space-y-3 mb-4 text-lg"></ul>
+                            <div class="flex gap-2 mt-4 no-print">
+                                <input type="text" id="new-negotiable-label" placeholder="e.g., My physical health" class="flex-grow p-2 border rounded-md focus:ring-2 focus:ring-[#FF6B6B] focus:outline-none">
+                                <button id="add-negotiable-btn" class="bg-[#FF6B6B] text-white font-bold py-2 px-4 rounded-md hover:bg-[#E55A5A] transition">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="strategy" class="p-6 md:p-8 rounded-lg border">
+                    <h2 class="text-3xl font-bold text-center text-[#3A4A6D] mb-8">IV. From Strategy to Tactics</h2>
+                    <p class="text-lg text-center text-gray-700 max-w-4xl mx-auto mb-10">
+                        Your non-negotiables are protected by concrete actions. Define the specific tactics you will use to maintain balance and manage your energy effectively.
+                    </p>
+                    <div class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-[#3A4A6D] mb-4">Define Your Tactics</h3>
+                            <div class="space-y-4 no-print">
+                                <div>
+                                    <label for="new-tactic-label" class="font-semibold text-gray-700">Tactic</label>
+                                    <input type="text" id="new-tactic-label" placeholder="e.g., Block out lunch break" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-[#3A4A6D] focus:outline-none">
+                                </div>
+                                <div>
+                                    <label for="new-tactic-effectiveness" class="font-semibold text-gray-700">Effectiveness (0-100)</label>
+                                    <input type="range" id="new-tactic-effectiveness" min="0" max="100" value="75" class="w-full mt-1 accent-[#4ECDC4]">
+                                </div>
+                                <div>
+                                    <label for="new-tactic-effort" class="font-semibold text-gray-700">Effort to Maintain (0-100)</label>
+                                    <input type="range" id="new-tactic-effort" min="0" max="100" value="50" class="w-full mt-1 accent-[#FF6B6B]">
+                                </div>
+                                <button id="add-tactic-btn" class="w-full bg-[#3A4A6D] text-white font-bold py-3 px-4 rounded-md hover:bg-[#2C3A5B] transition">Add Tactic to Chart</button>
+                            </div>
+                            <div id="tactics-list" class="mt-6 space-y-2"></div>
+                        </div>
+                        <div class="chart-container mx-auto h-[450px] max-h-[500px]">
+                            <canvas id="strategyChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="checkpoints" class="p-6 md:p-8 rounded-lg border">
+                    <h2 class="text-3xl font-bold text-center text-[#3A4A6D] mb-8">V. The Journey: Regular Checkpoints</h2>
+                    <p class="text-lg text-center text-gray-700 max-w-4xl mx-auto mb-10">
+                        Alignment is an ongoing process. Schedule regular check-ins to assess your journey, recalibrate, and ensure your contract is being met.
+                    </p>
+                    <div class="space-y-0">
+                        <div class="relative timeline-item">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot bg-[#FF6B6B]">1M</div>
+                            <div class="pl-8">
+                                <h4 class="text-xl font-bold text-[#3A4A6D] mb-1">Month 1: First Impressions</h4>
+                                <p class="text-gray-600 mb-3">Compare the role to your expectations. How is the pace? Is the initial excitement still there? What needs immediate adjustment?</p>
+                                <textarea placeholder="Your reflections for Month 1..." class="w-full h-24 p-2 border rounded-md focus:ring-2 focus:ring-[#FF6B6B] focus:outline-none no-print"></textarea>
+                                <div class="reflection-display text-gray-700 italic pt-3 min-h-[96px] whitespace-pre-wrap"></div>
+                            </div>
+                        </div>
+                        <div class="relative timeline-item">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot bg-[#F9A826]">3M</div>
+                            <div class="pl-8">
+                                <h4 class="text-xl font-bold text-[#3A4A6D] mb-1">Month 3: Deeper Reality</h4>
+                                <p class="text-gray-600 mb-3">Are you learning what you came to learn? Is the cost in time and energy manageable? Do you still feel like yourself?</p>
+                                <textarea placeholder="Your reflections for Month 3..." class="w-full h-24 p-2 border rounded-md focus:ring-2 focus:ring-[#F9A826] focus:outline-none no-print"></textarea>
+                                <div class="reflection-display text-gray-700 italic pt-3 min-h-[96px] whitespace-pre-wrap"></div>
+                            </div>
+                        </div>
+                        <div class="relative timeline-item">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot bg-[#4ECDC4]">6M</div>
+                            <div class="pl-8">
+                                <h4 class="text-xl font-bold text-[#3A4A6D] mb-1">Month 6: Value & Visibility</h4>
+                                <p class="text-gray-600 mb-3">Do you feel valued and visible? Have the gains justified the trade-offs? Are you thriving or just surviving?</p>
+                                <textarea placeholder="Your reflections for Month 6..." class="w-full h-24 p-2 border rounded-md focus:ring-2 focus:ring-[#4ECDC4] focus:outline-none no-print"></textarea>
+                                <div class="reflection-display text-gray-700 italic pt-3 min-h-[96px] whitespace-pre-wrap"></div>
+                            </div>
+                        </div>
+                        <div class="relative timeline-item pb-0">
+                            <div class="timeline-dot bg-[#3A4A6D]">12M</div>
+                            <div class="pl-8">
+                                <h4 class="text-xl font-bold text-[#3A4A6D] mb-1">Month 12: The Long View</h4>
+                                <p class="text-gray-600 mb-3">Have you built tangible skills and assets? Do you have more career leverage? Is it time to renew your commitment or plan your next move?</p>
+                                <textarea placeholder="Your reflections for Month 12..." class="w-full h-24 p-2 border rounded-md focus:ring-2 focus:ring-[#3A4A6D] focus:outline-none no-print"></textarea>
+                                <div class="reflection-display text-gray-700 italic pt-3 min-h-[96px] whitespace-pre-wrap"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="text-center pt-8 border-t">
+                    <h3 class="text-2xl font-bold text-[#3A4A6D] mb-4">Finalize & Export Your Contract</h3>
+                    <p class="text-gray-600 max-w-2xl mx-auto mb-6">Once you are happy with your entries, you can download a single, high-resolution PNG image of the entire document for your records.</p>
+                    <div class="flex justify-center items-center mb-8 no-print">
+                        <button id="download-png-btn" class="bg-white border-2 border-[#4ECDC4] text-[#4ECDC4] font-bold py-3 px-6 rounded-lg hover:bg-[#4ECDC4] hover:text-white transition w-full sm:w-auto">
+                            Download as Image (PNG)
+                        </button>
+                    </div>
+                    <div class="border-t pt-8">
+                        <textarea id="signature-block" class="w-full max-w-xl mx-auto text-center text-xl font-bold text-[#3A4A6D] bg-transparent border-0 focus:ring-0 focus:outline-none resize-none p-2 no-print" rows="2">Signed with purpose and optimism. I am here to thrive.</textarea>
+                        <div id="signature-display" class="text-xl font-bold text-[#3A4A6D] min-h-[50px] whitespace-pre-wrap"></div>
+                    </div>
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        
+        const page = document.getElementById('page-content');
+        const body = document.body;
+
+        function prepareForExport() {
+            body.classList.add('export-mode');
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach(ta => {
+                const displayId = ta.id + '-display';
+                const displayDiv = document.getElementById(displayId);
+                if(displayDiv) {
+                    displayDiv.innerText = ta.value;
+                } else if (ta.nextElementSibling && ta.nextElementSibling.classList.contains('reflection-display')){
+                     ta.nextElementSibling.innerText = ta.value;
+                }
+            });
+            const signatureDisplay = document.getElementById('signature-display');
+            signatureDisplay.innerText = document.getElementById('signature-block').value;
+        }
+
+        function cleanupAfterExport() {
+             body.classList.remove('export-mode');
+             const textareas = document.querySelectorAll('textarea');
+             textareas.forEach(ta => {
+                const displayId = ta.id + '-display';
+                const displayDiv = document.getElementById(displayId);
+                if(displayDiv) {
+                    displayDiv.innerText = '';
+                } else if (ta.nextElementSibling && ta.nextElementSibling.classList.contains('reflection-display')){
+                     ta.nextElementSibling.innerText = '';
+                }
+            });
+            document.getElementById('signature-display').innerText = '';
+        }
+
+        function showLoading(button, text = 'Processing...') {
+            button.disabled = true;
+            const originalText = button.innerHTML;
+            button.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-[#4ECDC4] inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>${text}`;
+            return originalText;
+        }
+
+        function hideLoading(button, originalText) {
+             button.disabled = false;
+             button.innerHTML = originalText;
+        }
+        
+        function dataUrlToBlob(dataUrl) {
+          const [head, body] = dataUrl.split(',');
+          const mime = (head.match(/^data:(.*?)(;|,)/) || [,'application/octet-stream'])[1];
+          if (head.endsWith(';base64')) {
+            const bin = atob(body);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new Blob([bytes], { type: mime });
+          } else {
+            return new Blob([decodeURIComponent(body)], { type: mime });
+          }
+        }
+
+        document.getElementById('download-png-btn').addEventListener('click', function() {
+            const button = this;
+            const originalText = showLoading(button, 'Generating Image...');
+            prepareForExport();
+           
+            const scale = 2;
+            const options = {
+                height: page.offsetHeight * scale,
+                width: page.offsetWidth * scale,
+                style: {
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top left'
+                },
+                quality: 1.0,
+                bgcolor: '#ffffff'
+            };
+
+            domtoimage.toPng(page, options)
+                .then(function (dataUrl) {
+                    const blob = dataUrlToBlob(dataUrl);
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                    URL.revokeObjectURL(url);
+                })
+                .catch(function (error) {
+                    console.error('PNG export failed!', error);
+                    alert('Sorry, there was an error creating the image.');
+                })
+                .finally(function() {
+                     cleanupAfterExport();
+                     hideLoading(button, originalText);
+                });
+        });
+
+
+        const energeticPlayfulPalette = {
+            primary: '#FF6B6B', 
+            secondary: '#4ECDC4', 
+            accent: '#F9A826', 
+            dark: '#3A4A6D', 
+            light: '#F8FAFC', 
+            neutral: '#FFE66D'
+        };
+        
+        const tooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        function wrapLabels(label) {
+            if (typeof label !== 'string') return label;
+            if (label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            }
+            return label;
+        }
+
+        let tradeOffsState = [
+            { label: 'High-Pressure Environment', value: 9 },
+            { label: 'Late International Meetings', value: 8 },
+        ];
+        let returnsState = [
+             { label: 'Experience in Data Analysis', value: 9 },
+             { label: 'Stepping Stone to Leadership', value: 9 },
+        ];
+        let professionalPledgeState = [
+            'Bring full presence, professionalism, and creativity.',
+            'Contribute, learn, adapt, and deliver impact.',
+            'Engage with curiosity and ownership.'
+        ];
+        let nonNegotiablesState = [
+            'My physical and mental health',
+            'My identity outside of my job title'
+        ];
+        let tacticsState = [
+            { label: 'Protect One Evening Weekly', effectiveness: 85, effort: 60 },
+            { label: 'Plan & Disconnect for PTO', effectiveness: 95, effort: 50 },
+        ];
+
+        const tradeOffsChartCtx = document.getElementById('tradeOffsChart').getContext('2d');
+        const returnsChartCtx = document.getElementById('returnsChart').getContext('2d');
+        const strategyChartCtx = document.getElementById('strategyChart').getContext('2d');
+
+        const charts = {
+            tradeOffs: new Chart(tradeOffsChartCtx, {
+                type: 'doughnut',
+                data: { labels: [], datasets: [{ label: 'Impact Score', data: [], backgroundColor: [], borderColor: [], borderWidth: 2 }] },
+                options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } } }
+            }),
+            returns: new Chart(returnsChartCtx, {
+                type: 'polarArea',
+                data: { labels: [], datasets: [{ label: 'Value Score', data: [], backgroundColor: [], borderColor: [], borderWidth: 2 }] },
+                options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, title: { display: false }, tooltip: { callbacks: { title: tooltipTitleCallback } } }, scales: { r: { beginAtZero: true } } }
+            }),
+            strategy: new Chart(strategyChartCtx, {
+                type: 'radar',
+                data: { labels: [], datasets: [
+                    { label: 'Effectiveness', data: [], backgroundColor: energeticPlayfulPalette.secondary + '99', borderColor: energeticPlayfulPalette.secondary, borderWidth: 2, pointBackgroundColor: energeticPlayfulPalette.secondary, pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: energeticPlayfulPalette.secondary },
+                    { label: 'Effort to Maintain', data: [], backgroundColor: energeticPlayfulPalette.primary + '99', borderColor: energeticPlayfulPalette.primary, borderWidth: 2, pointBackgroundColor: energeticPlayfulPalette.primary, pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: energeticPlayfulPalette.primary }
+                ]},
+                options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Effectiveness vs. Effort of Boundary Tactics', font: {size: 16}, color: '#3A4A6D' }, tooltip: { callbacks: { title: tooltipTitleCallback } } }, scales: { r: { angleLines: { color: 'rgba(0,0,0,0.1)' }, grid: { color: 'rgba(0,0,0,0.1)' }, pointLabels: { font: { size: 12 }, color: energeticPlayfulPalette.dark }, suggestedMin: 0, suggestedMax: 100 } } }
+            })
+        };
+
+        function createItemDOM(text, index, listType, isRemovable = true) {
+            const item = document.createElement('div');
+            let removeButtonHTML = isRemovable ? `<button data-index="${index}" data-type="${listType}" class="text-red-500 hover:text-red-700 font-bold no-print">X</button>` : '';
+            item.className = 'flex justify-between items-center p-2 rounded-md bg-slate-100';
+            item.innerHTML = `<span>${text}</span>${removeButtonHTML}`;
+            return item;
+        }
+        
+        function renderListsAndCharts() {
+            const tradeOffsListDOM = document.getElementById('tradeoffs-list');
+            tradeOffsListDOM.innerHTML = '';
+            tradeOffsState.forEach((item, index) => {
+                tradeOffsListDOM.appendChild(createItemDOM(`${item.label} (Score: ${item.value})`, index, 'tradeoff'));
+            });
+            updateChart('tradeOffs', tradeOffsState, [energeticPlayfulPalette.primary, energeticPlayfulPalette.accent, energeticPlayfulPalette.neutral]);
+            
+            const returnsListDOM = document.getElementById('returns-list');
+            returnsListDOM.innerHTML = '';
+            returnsState.forEach((item, index) => {
+                returnsListDOM.appendChild(createItemDOM(`${item.label} (Score: ${item.value})`, index, 'return'));
+            });
+            updateChart('returns', returnsState, [energeticPlayfulPalette.secondary, energeticPlayfulPalette.dark]);
+
+            const pledgeListDOM = document.getElementById('pledge-list');
+            pledgeListDOM.innerHTML = '';
+            professionalPledgeState.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center p-3 rounded-md bg-[#4ECDC4]/20 text-[#006A71] font-semibold';
+                div.innerHTML = `<span>${item}</span><button data-index="${index}" data-type="pledge" class="text-red-500 hover:text-red-700 font-bold ml-4 text-sm no-print">X</button>`;
+                pledgeListDOM.appendChild(div);
+            });
+
+            const nonNegotiablesListDOM = document.getElementById('non-negotiables-list');
+            nonNegotiablesListDOM.innerHTML = '';
+            nonNegotiablesState.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center p-2 rounded-md bg-slate-100';
+                li.innerHTML = `<span>🛡️ ${item}</span><button data-index="${index}" data-type="negotiable" class="text-red-500 hover:text-red-700 font-bold no-print">X</button>`;
+                nonNegotiablesListDOM.appendChild(li);
+            });
+
+            const tacticsListDOM = document.getElementById('tactics-list');
+            tacticsListDOM.innerHTML = '';
+            tacticsState.forEach((item, index) => {
+                tacticsListDOM.appendChild(createItemDOM(`${item.label} (Efficacy: ${item.effectiveness}, Effort: ${item.effort})`, index, 'tactic'));
+            });
+            updateStrategyChart();
+        }
+
+        function updateChart(chartName, data, colors) {
+            const chart = charts[chartName];
+            chart.data.labels = data.map(d => wrapLabels(d.label));
+            chart.data.datasets[0].data = data.map(d => d.value);
+            chart.data.datasets[0].backgroundColor = data.map((_, i) => `${colors[i % colors.length]}B3`);
+            chart.data.datasets[0].borderColor = data.map((_, i) => colors[i % colors.length]);
+            chart.update();
+        }
+        
+        function updateStrategyChart() {
+            const chart = charts.strategy;
+            chart.data.labels = tacticsState.map(t => wrapLabels(t.label));
+            chart.data.datasets[0].data = tacticsState.map(t => t.effectiveness);
+            chart.data.datasets[1].data = tacticsState.map(t => t.effort);
+            chart.update();
+        }
+
+        document.getElementById('add-tradeoff-btn').addEventListener('click', () => {
+            const labelInput = document.getElementById('new-tradeoff-label');
+            const valueInput = document.getElementById('new-tradeoff-value');
+            if (labelInput.value && valueInput.value) {
+                tradeOffsState.push({ label: labelInput.value, value: parseInt(valueInput.value) });
+                labelInput.value = '';
+                valueInput.value = '';
+                renderListsAndCharts();
+            }
+        });
+
+        document.getElementById('add-return-btn').addEventListener('click', () => {
+            const labelInput = document.getElementById('new-return-label');
+            const valueInput = document.getElementById('new-return-value');
+            if (labelInput.value && valueInput.value) {
+                returnsState.push({ label: labelInput.value, value: parseInt(valueInput.value) });
+                labelInput.value = '';
+                valueInput.value = '';
+                renderListsAndCharts();
+            }
+        });
+
+        document.getElementById('add-pledge-btn').addEventListener('click', () => {
+            const labelInput = document.getElementById('new-pledge-label');
+            if (labelInput.value) {
+                professionalPledgeState.push(labelInput.value);
+                labelInput.value = '';
+                renderListsAndCharts();
+            }
+        });
+
+        document.getElementById('add-negotiable-btn').addEventListener('click', () => {
+            const labelInput = document.getElementById('new-negotiable-label');
+            if (labelInput.value) {
+                nonNegotiablesState.push(labelInput.value);
+                labelInput.value = '';
+                renderListsAndCharts();
+            }
+        });
+        
+        document.getElementById('add-tactic-btn').addEventListener('click', () => {
+            const labelInput = document.getElementById('new-tactic-label');
+            const effectivenessInput = document.getElementById('new-tactic-effectiveness');
+            const effortInput = document.getElementById('new-tactic-effort');
+            if (labelInput.value) {
+                tacticsState.push({
+                    label: labelInput.value,
+                    effectiveness: parseInt(effectivenessInput.value),
+                    effort: parseInt(effortInput.value)
+                });
+                labelInput.value = '';
+                effectivenessInput.value = '75';
+                effortInput.value = '50';
+                renderListsAndCharts();
+            }
+        });
+
+        document.body.addEventListener('click', (e) => {
+            if (e.target.matches('[data-type]')) {
+                const type = e.target.dataset.type;
+                const index = parseInt(e.target.dataset.index);
+                if (type === 'tradeoff') tradeOffsState.splice(index, 1);
+                else if (type === 'return') returnsState.splice(index, 1);
+                else if (type === 'pledge') professionalPledgeState.splice(index, 1);
+                else if (type === 'negotiable') nonNegotiablesState.splice(index, 1);
+                else if (type === 'tactic') tacticsState.splice(index, 1);
+                renderListsAndCharts();
+            }
+        });
+
+        const signatureTextarea = document.getElementById('signature-block');
+        const autoResizeTextarea = (el) => {
+            el.style.height = 'auto';
+            el.style.height = (el.scrollHeight) + 'px';
+        };
+        signatureTextarea.addEventListener('input', () => autoResizeTextarea(signatureTextarea));
+        
+        renderListsAndCharts();
+        autoResizeTextarea(signatureTextarea);
+        });
+    </script>
+</body>
+</html>
+
